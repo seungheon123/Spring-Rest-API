@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASS}
+
+  jpa : #jpa 종류
+    hibernate:
+      ddl-auto : create #app 로딩 시점에 테이블 다 드랍하고 새로시작, 끝나도 그대로 남아있음
+    properties:
+      hibernate :
+        #show_sql : true #콘솔에 로그가 나옴
+        format_sql : true #이쁘게 해줌
+
+logging.level:
+  org.hibernate.SQL: debug #콘솔에 남기는게 아니라 로그로 남음.
+  org.hibernate.type : trace #바인딩된 파라미터까지 볼 수 있
