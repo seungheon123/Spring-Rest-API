@@ -21,7 +21,7 @@ public class MemberRepository {
     }
 
     public List<Member> findAll(){
-        return em.createQuery("select m from Memeber m",Member.class)
+        return em.createQuery("select m from Member m",Member.class)
                 .getResultList();
     }
 
@@ -30,5 +30,10 @@ public class MemberRepository {
                 " where m.name = :name",Member.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public void delete(Member member){
+
+        em.remove(member);
     }
 }
