@@ -15,6 +15,7 @@ public class MemberService {
     @Autowired
     MemberRepository memberRepository;
 
+    @Transactional
     public Long join(Member member){
         validateDuplicateMember(member);
         memberRepository.save(member);
