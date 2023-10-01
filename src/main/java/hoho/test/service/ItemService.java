@@ -19,8 +19,13 @@ public class ItemService {
         return item.getId();
     }
 
+    @Transactional
+    public void Update(Item item){
+        itemRepository.update(item);
+    }
+
     private void validateDuplciateItem(Item item) {
-        Item findItem = itemRepository.findByName(item);
-        if(findItem!=null) throw  new IllegalStateException("이미 존재하는 상품입니다");
+        Item byName = itemRepository.findByName(item);
+        if(byName != null) throw new IllegalStateException("이미 존재하는 상품입니다");
     }
 }
