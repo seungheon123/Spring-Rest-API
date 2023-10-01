@@ -27,6 +27,13 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public void update(Item item){
+        Item findItem = em.find(Item.class, item.getId());
+        findItem.setName(item.getName());
+        findItem.setPrice(item.getPrice());
+        findItem.setStockQuantity(item.getStockQuantity());
+    }
+
     public Item findByName(Item item){
         try {
             return em.createQuery("select i from Item i" +
@@ -39,4 +46,7 @@ public class ItemRepository {
     }
 
 
+    public void deleteById(Item item) {
+        em.remove(item);
+    }
 }
