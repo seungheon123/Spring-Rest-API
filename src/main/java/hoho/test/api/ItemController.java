@@ -28,15 +28,20 @@ public class ItemController {
         }
     }
 
-    @PutMapping("/item/update")
-    public ResponseEntity<?> update(@RequestBody ItemUpdateDto itemDto){
+    @PutMapping("/item/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ItemUpdateDto itemDto){
         try{
-            Item item = new Item();
-            item.setId(itemDto.getId());
-            item.setName(itemDto.getName());
-            item.setPrice(itemDto.getPrice());
-            item.setStockQuantity(itemDto.getStock());
-            itemService.Update(item);
+            itemService.Update(id, itemDto);
+            return new ResponseEntity<>("Success",HttpStatus.OK);
+        }catch (IllegalStateException e){
+            return new ResponseEntity<>("에러가 발생했습니다",HttpStatus.CONFLICT);
+        }
+    }
+
+    @DeleteMapping("/item/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        try{
+            itemService.delete(id);
             return new ResponseEntity<>("Success",HttpStatus.OK);
         }catch (IllegalStateException e){
             return new ResponseEntity<>("에러가 발생했습니다",HttpStatus.CONFLICT);

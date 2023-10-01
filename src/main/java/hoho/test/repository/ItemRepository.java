@@ -46,4 +46,7 @@ public class ItemRepository {
     }
 
 
+    public void deleteById(Item item) {
+        em.remove(item);
+    }
 }
