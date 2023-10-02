@@ -7,7 +7,7 @@ spring:
 
   jpa : #jpa 종류
     hibernate:
-      ddl-auto : create #app 로딩 시점에 테이블 다 드랍하고 새로시작, 끝나도 그대로 남아있음
+      ddl-auto : create
     properties:
       hibernate :
         #show_sql : true #콘솔에 로그가 나옴
