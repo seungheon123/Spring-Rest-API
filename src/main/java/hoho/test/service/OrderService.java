@@ -16,27 +16,24 @@ public class OrderService {
     private MemberRepository memberRepository;
     @Autowired
     private ItemRepository itemRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-    @Autowired
-    private DeliveryRepository deliveryRepository;
 
     @Transactional
     public void createOrder(OrderCreateDto orderDto) {
+        //엔티티 조회
         Member findMember = memberRepository.findOne(orderDto.getMember_id());
+        Item findItem = itemRepository.findOne(orderDto.getItem_id());
+        //배송 정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(findMember.getAddress());
         delivery.setDeliveryStatus(DeliveryStatus.READY);
-        deliveryRepository.save(delivery);
 
-        Item findItem = itemRepository.findOne(orderDto.getItem_id());
+        //주문 상품 생성
         int orderPrice = findItem.getPrice() * orderDto.getCount();
-        Order order = new Order();
-        order.setMember(findMember);
-        order.setDelivery(delivery);
-        order.setOrderStatus(OrderStatus.ORDER);
+        OrderItem orderItem = OrderItem.createOrderItem(findItem, orderPrice, orderDto.getCount());
+
+        //주문 생성
+        Order order = Order.createOrder(findMember,delivery,orderItem);
         orderRepository.save(order);
-        orderItemRepository.createOrderItem(findItem,order,orderPrice,orderDto.getCount());
 
     }
 }
