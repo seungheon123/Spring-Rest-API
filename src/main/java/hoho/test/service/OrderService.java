@@ -10,12 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class OrderService {
+    private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
+
     @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private ItemRepository itemRepository;
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ItemRepository itemRepository) {
+        this.orderRepository = orderRepository;
+        this.memberRepository = memberRepository;
+        this.itemRepository = itemRepository;
+    }
 
     @Transactional
     public void createOrder(OrderCreateDto orderDto) {

@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class MemberService {
 
+    private final MemberRepository memberRepository;
+
     @Autowired
-    MemberRepository memberRepository;
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
 
     @Transactional
     public Long join(Member member){
