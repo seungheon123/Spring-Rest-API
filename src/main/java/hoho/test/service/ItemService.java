@@ -11,8 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class ItemService {
+
+    private final ItemRepository itemRepository;
+
     @Autowired
-    ItemRepository itemRepository;
+    public ItemService(ItemRepository itemRepository){
+        this.itemRepository = itemRepository;
+    }
 
     @Transactional
     public Long create(Item item){
