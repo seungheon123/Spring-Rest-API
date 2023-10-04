@@ -23,7 +23,9 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-
+    public void delete(Order order){
+        em.remove(order);
+    }
 
 
 

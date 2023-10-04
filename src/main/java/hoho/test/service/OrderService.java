@@ -40,4 +40,18 @@ public class OrderService {
         orderRepository.save(order);
 
     }
+
+    @Transactional
+    public void deleteOrder(Long id) {
+        Order order = checkDeliveryStatus(id);
+        orderRepository.delete(order);
+    }
+
+    private Order checkDeliveryStatus(Long id) {
+        Order findOrder = orderRepository.findById(id);
+        if(findOrder.getDelivery().getDeliveryStatus() == DeliveryStatus.COMP){
+            throw new IllegalStateException("이미 배송 된 주문입니다");
+        }
+        else return findOrder;
+    }
 }
