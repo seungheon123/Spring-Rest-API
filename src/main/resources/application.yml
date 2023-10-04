@@ -7,7 +7,7 @@ spring:
 
   jpa : #jpa 종류
     hibernate:
-      ddl-auto : create
+      ddl-auto : update
     properties:
       hibernate :
         #show_sql : true #콘솔에 로그가 나옴
