@@ -1,11 +1,16 @@
 package hoho.test.service;
 
 import hoho.test.domain.*;
+import hoho.test.dto.OrderAllResponseDto;
 import hoho.test.dto.OrderCreateDto;
 import hoho.test.repository.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -53,5 +58,18 @@ public class OrderService {
             throw new IllegalStateException("이미 배송 된 주문입니다");
         }
         else return findOrder;
+    }
+
+    public List<OrderAllResponseDto> getAllOrder() {
+        //전체 주문 조회
+        List<Order> orders = orderRepository.findAll();
+        List<OrderAllResponseDto> collect = orders.stream()
+                .flatMap(o -> o.getOrderItems().stream()
+                        .map(oi -> new OrderAllResponseDto(
+                                o.getId(), o.getMember().getName(), o.getDelivery().getAddress(),o.getOrderStatus(),
+                                oi.getItem().getName(), oi.getOrderPrice(), oi.getCount()
+                        )))
+                .collect(Collectors.toList());
+        return collect;
     }
 }
