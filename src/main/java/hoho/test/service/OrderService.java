@@ -63,13 +63,13 @@ public class OrderService {
     public List<OrderAllResponseDto> getAllOrder() {
         //전체 주문 조회
         List<Order> orders = orderRepository.findAll();
-        List<OrderAllResponseDto> collect = orders.stream()
+        List<OrderAllResponseDto> result = orders.stream()
                 .flatMap(o -> o.getOrderItems().stream()
                         .map(oi -> new OrderAllResponseDto(
                                 o.getId(), o.getMember().getName(), o.getDelivery().getAddress(),o.getOrderStatus(),
                                 oi.getItem().getName(), oi.getOrderPrice(), oi.getCount()
                         )))
                 .collect(Collectors.toList());
-        return collect;
+        return result;
     }
 }
