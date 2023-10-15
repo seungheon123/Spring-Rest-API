@@ -47,4 +47,4 @@ jobs:
     - name: Docker image build
       run: docker build -f Dockerfile -t ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest .
     - name: Push to Docker Hub
-      run: docker push ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest
+      run: docker push ${{secrets.DOCKERHUB_REPO}}/spring-test:latest
