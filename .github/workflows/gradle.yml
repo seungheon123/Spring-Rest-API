@@ -44,7 +44,11 @@ jobs:
       with:
         username: ${{secrets.DOCKERHUB_USERNAME}}
         password: ${{secrets.DOCKERHUB_TOKEN}}
-    - name: Build Docker image
-      run: docker build -f Dockerfile -t ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest .
-    - name: Push to Docker Hub
-      run: docker push ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest
+    - name: Build and Release to DockerHub
+      env:
+        NAME: seungheon123
+        REPO: spring-test
+      run: |
+        docker build -t $REPO .
+        docker tag $REPO:latest $NAME:latest
+        docker push $NAME/$REPO:latest
