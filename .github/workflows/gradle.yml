@@ -8,10 +8,10 @@
 name: Java CI with Gradle
 
 on:
-  #push:
-    #branches: [ "main" ]
-  pull_request:
+  push:
     branches: [ "main" ]
+  #pull_request:
+    #branches: [ "main" ]
 
 permissions:
   contents: read
@@ -45,6 +45,6 @@ jobs:
         username: ${{secrets.DOCKERHUB_USERNAME}}
         password: ${{secrets.DOCKERHUB_TOKEN}}
     - name: Build Docker image
-      run: docker build -f Dockerfile -t ${{secrets.DOCKERHUB_REPO}}/docker-springboot .
-    - name: Docker Hub 퍼블리시
-      run: docker push ${{secrets.DOCKERHUB_REPO}}/docker-springboot
+      run: docker build -f Dockerfile -t ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest .
+    - name: Push to Docker Hub
+      run: docker push ${{secrets.DOCKERHUB_REPO}}/docker-springboot:latest
