@@ -1,29 +1,35 @@
 package hoho.test.service;
 
+import hoho.test.auth.provider.TokenProvider;
 import hoho.test.domain.Member;
+import hoho.test.dto.MemberSignInDto;
+import hoho.test.dto.TokenDto;
 import hoho.test.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    @Autowired
-    public MemberService(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
+    private final TokenProvider tokenProvider;
 
     @Transactional
     public Long join(Member member){
         validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
+    }
+
+    @Transactional
+    public TokenDto signin(MemberSignInDto signInDto){
+        Member findMember = memberRepository.findByName(signInDto.getName());
+        return tokenProvider.generateToken(findMember.getId(),findMember.getName());
     }
 
     @Transactional
@@ -39,8 +45,8 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
-        if(!findMembers.isEmpty()) throw new IllegalStateException("이미 존재하는 회원입니다");
+        Member findMember = memberRepository.findByName(member.getName());
+        if(findMember != null) throw new IllegalStateException("이미 존재하는 회원입니다");
     }
 
 
