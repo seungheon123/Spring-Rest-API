@@ -4,6 +4,7 @@ import hoho.test.domain.*;
 import hoho.test.dto.OrderAllResponseDto;
 import hoho.test.dto.OrderCreateDto;
 import hoho.test.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ItemRepository itemRepository) {
-        this.orderRepository = orderRepository;
-        this.memberRepository = memberRepository;
-        this.itemRepository = itemRepository;
-    }
 
     @Transactional
     public void createOrder(OrderCreateDto orderDto) {
