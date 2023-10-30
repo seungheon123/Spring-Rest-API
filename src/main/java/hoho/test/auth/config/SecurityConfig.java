@@ -26,10 +26,10 @@ public class SecurityConfig{
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web -> web.ignoring()
+        return (web) -> web.ignoring()
                 .antMatchers(
                         "/favicon.ico"
-                ));
+                );
     }
 
     @Bean
@@ -38,17 +38,18 @@ public class SecurityConfig{
                 .cors()
                 .and()
                 .csrf().disable()
+                .formLogin().disable()
                 //세션 사용 안함
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll() //로그인, 회원가입 요청은 permitAll로 설정
+                .antMatchers("/auth/**","/swagger-ui").permitAll() //로그인, 회원가입 요청은 permitAll로 설정
                 .anyRequest().authenticated() //나머지 API는 전부 인증 필요
-                //JwtFilter를
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
+                //JwtFilter를
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
