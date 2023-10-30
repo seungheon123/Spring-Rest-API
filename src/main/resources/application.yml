@@ -17,6 +17,9 @@ spring:
     secret: ${JWT_SECRET}
     access-token-validity-in-seconds: 1800 #30분
     refresh-token-validity-in-seconds: 604800 #7일
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 logging.level:
   org.hibernate.SQL: debug #콘솔에 남기는게 아니라 로그로 남음.
