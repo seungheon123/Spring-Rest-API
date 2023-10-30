@@ -3,7 +3,9 @@ package hoho.test.api;
 
 import hoho.test.domain.Member;
 import hoho.test.dto.MemberJoinDto;
+import hoho.test.dto.MemberSignInDto;
 import hoho.test.dto.MemberWithdrawDto;
+import hoho.test.dto.TokenDto;
 import hoho.test.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/join")
+    @PostMapping("/auth/join")
     public ResponseEntity<?> createUser(@RequestBody MemberJoinDto userDto){
         try{
             Member member = new Member();
@@ -44,5 +46,14 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/auth/signin")
+    public ResponseEntity<?>signIn(@RequestBody MemberSignInDto signInDto){
+        try{
+            TokenDto tokenDto = memberService.signin(signInDto);
+            return new ResponseEntity<>(tokenDto,HttpStatus.OK);
+        }catch (IllegalStateException e){
+            return new ResponseEntity<>("에러가 발생했습니다",HttpStatus.CONFLICT);
+        }
+    }
 
 }
