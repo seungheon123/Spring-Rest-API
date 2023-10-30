@@ -24,6 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         //유효한 토큰을 제공하지 않고 접근하려 할 때
         logger.error("Unathorized error");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
     }
 
 }
