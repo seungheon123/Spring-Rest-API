@@ -110,9 +110,10 @@ public class TokenProvider implements InitializingBean {
     //Request 헤더에서 토큰 꺼내오기
     public String resolveToken(HttpServletRequest request){
         String token = request.getHeader(AUTHORIZATION);
-        if(StringUtils.hasText("header")&&token.startsWith("Bearer")){
+        System.out.println(token);
+        if(StringUtils.hasText(token)&&token.startsWith("Bearer")){
             return token.substring(7);
         }
-        return  null;
+        return null;
     }
 }

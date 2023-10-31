@@ -7,6 +7,9 @@ import hoho.test.dto.MemberSignInDto;
 import hoho.test.dto.MemberWithdrawDto;
 import hoho.test.dto.TokenDto;
 import hoho.test.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Member API",description = "회원가입, 로그인, 회원탈퇴 API")
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
 
+    @Operation(summary = "회원가입")
     @PostMapping("/auth/join")
     public ResponseEntity<?> createUser(@RequestBody MemberJoinDto userDto){
         try{
