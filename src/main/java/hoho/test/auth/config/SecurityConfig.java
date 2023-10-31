@@ -43,7 +43,7 @@ public class SecurityConfig{
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**","/swagger-ui").permitAll() //로그인, 회원가입 요청은 permitAll로 설정
+                .antMatchers("/auth/**","/swagger-ui/**", "/v3/api-docs/**","swagger-resources/**").permitAll() //로그인, 회원가입 요청은 permitAll로 설정
                 .anyRequest().authenticated() //나머지 API는 전부 인증 필요
                 .and()
                 .exceptionHandling()
